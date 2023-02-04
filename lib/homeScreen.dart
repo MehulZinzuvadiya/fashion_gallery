@@ -17,12 +17,26 @@ class _HomeScreenState extends State<HomeScreen> {
     "BLAZER",
     "HODIE",
     "JEANS",
-    "COMBO",
+    "EAR-RINGS",
     "JACKET",
     "SHRUG",
     "HOT WEAR",
     "SHORTS",
     "SHIRTS",
+  ];
+  List rating = [
+    "5.0",
+    "4.9",
+    "3.2",
+    "4.5",
+    "3.7",
+    "4.2",
+    "5.0",
+    "4.9",
+    "3.2",
+    "4.5",
+    "3.7",
+    "4.2",
   ];
   List images = [
     "assets/images/shoes.png",
@@ -66,62 +80,110 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
       ),
       body: Container(
-        color: Colors.lightBlueAccent,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                Colors.blue,
+                Colors.indigo.shade400,
+                Colors.purple,
+              ],
+            ),
+          ),
           child: GridView.builder(
-        itemCount: name.length,
-        padding: EdgeInsets.all(10),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-        ),
-        physics: BouncingScrollPhysics(),
-        itemBuilder: (context, index) =>
-            FashionWidget(name[index], price[index], images[index]),
-      )),
+            itemCount: name.length,
+            padding: EdgeInsets.all(10),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
+            ),
+            physics: BouncingScrollPhysics(),
+            itemBuilder: (context, index) => FashionWidget(
+                name[index], price[index], images[index], rating[index]),
+          )),
     ));
   }
 
-  Widget FashionWidget(String? n1, String? pr, String? img) {
-    return Stack(
-      children: [
-        Column(
-          children: [
-            Container(
-              child: Image.asset("$img"),
-            ),
-            Container(
-              height: 500,
-              width: 200,
+  Widget FashionWidget(String? n1, String? pr, String? img, String? rate) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Image.asset(
+            "$img",
+            fit: BoxFit.cover,
+          ),
+          Align(
+            alignment: Alignment.topLeft,
+            child: Container(
+              height: 40,
+              width: 40,
+              alignment: Alignment.center,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              //
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Container(
-                  height: 40,
-                  width: 200,
-                  // margin: EdgeInsets.only(left: 10,right: 10),
-                  decoration: BoxDecoration(color: Colors.black54),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("${n1}"),
-                        Text("${pr}"),
-                      ],
-                    ),
-                  ),
+                color: Colors.green,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
                 ),
               ),
-
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "${rate}",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 2,
+                  ),
+                  Icon(
+                    Icons.star,
+                    color: Colors.white,
+                    size: 8,
+                  )
+                ],
+              ),
             ),
-          ],
-        ),
-
-      ],
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              height: 40,
+              width: double.infinity,
+              // margin: EdgeInsets.only(left: 10,right: 10),
+              decoration: BoxDecoration(
+                  color: Colors.black54,
+                  borderRadius: BorderRadius.horizontal(
+                      right: Radius.circular(10), left: Radius.circular(10))),
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "${n1}",
+                      style: TextStyle(color: Colors.white, letterSpacing: 1),
+                    ),
+                    Text(
+                      "${pr}",
+                      style: TextStyle(color: Colors.white, letterSpacing: 1),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
